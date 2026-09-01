@@ -100,18 +100,30 @@ document.querySelectorAll("[data-go-filter]").forEach(card => {
 
 const toggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".nav");
-toggle.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
-  toggle.classList.toggle("active", isOpen);
-  toggle.setAttribute("aria-expanded", String(isOpen));
-  document.body.classList.toggle("menu-open", isOpen);
-});
-nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-  nav.classList.remove("open");
-  toggle.classList.remove("active");
-  toggle.setAttribute("aria-expanded", "false");
-  document.body.classList.remove("menu-open");
-}));
+const backdrop = document.querySelector(".menu-backdrop");
+
+function setMenu(open) {
+  if (!toggle || !nav) return;
+  nav.classList.toggle("open", open);
+  toggle.classList.toggle("active", open);
+  toggle.setAttribute("aria-expanded", String(open));
+  toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  document.body.classList.toggle("menu-open", open);
+}
+
+if (toggle && nav) {
+  toggle.addEventListener("click", () => setMenu(!nav.classList.contains("open")));
+  nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  backdrop?.addEventListener("click", () => setMenu(false));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenu(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 820) setMenu(false);
+  });
+}
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {

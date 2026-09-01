@@ -53,8 +53,33 @@ button { cursor: pointer; }
 .nav > a:not(.nav-cta):hover::after { width: 100%; }
 .nav-cta { background: var(--brown); color: #fff; padding: 12px 18px; border-radius: 999px; transition: transform .2s, background .2s; }
 .nav-cta:hover { transform: translateY(-1px); background: #42291e; }
-.menu-toggle { display: none; border: 0; background: transparent; padding: 8px; }
-.menu-toggle span { display: block; width: 25px; height: 2px; background: var(--brown); margin: 5px 0; transition: .2s; }
+.menu-toggle {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.menu-toggle span {
+  position: absolute;
+  left: 10px;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--brown);
+  transform-origin: center;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.menu-toggle span:nth-child(1) { top: 13px; }
+.menu-toggle span:nth-child(2) { top: 21px; }
+.menu-toggle span:nth-child(3) { top: 29px; }
+.menu-backdrop { display: none; }
 
 .hero { position: relative; overflow: hidden; background: radial-gradient(circle at 78% 20%, rgba(213,160,68,.23), transparent 28%), linear-gradient(130deg, #24140f 0%, #382017 56%, #1b120f 100%); color: white; min-height: 690px; display: flex; align-items: center; }
 .hero::before { content: ""; position: absolute; inset: auto -80px -230px auto; width: 560px; height: 560px; border: 1px solid rgba(230,194,127,.18); border-radius: 50%; box-shadow: 0 0 0 70px rgba(230,194,127,.03), 0 0 0 140px rgba(230,194,127,.025); }
@@ -210,14 +235,48 @@ button { cursor: pointer; }
 @media (max-width: 820px) {
   .topbar-inner { justify-content: center; }
   .topbar-inner a { display: none; }
-  .menu-toggle { display: block; z-index: 61; }
-  .nav { position: fixed; inset: 0 0 0 28%; background: var(--paper); z-index: 60; flex-direction: column; align-items: flex-start; justify-content: center; padding: 45px; gap: 25px; transform: translateX(105%); transition: transform .3s ease; box-shadow: -20px 0 70px rgba(30,20,15,.12); }
-  .nav.open { transform: translateX(0); }
-  .nav a { font-size: 20px; }
-  .nav-cta { font-size: 15px !important; }
-  .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle { display: block; z-index: 71; }
+  .menu-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(82vw, 360px);
+    min-height: 100dvh;
+    background: var(--paper);
+    z-index: 70;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 88px 32px 42px;
+    gap: 24px;
+    overflow-y: auto;
+    transform: translate3d(105%,0,0);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .3s ease, visibility .3s ease;
+    box-shadow: -20px 0 70px rgba(30,20,15,.16);
+  }
+  .nav.open { transform: translate3d(0,0,0); visibility: visible; pointer-events: auto; }
+  .nav a { width: 100%; font-size: 20px; }
+  .nav-cta { width: auto !important; font-size: 15px !important; }
+  .menu-toggle.active span:nth-child(1) { top: 21px; transform: rotate(45deg); }
   .menu-toggle.active span:nth-child(2) { opacity: 0; }
-  .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .menu-toggle.active span:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+  .menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 69;
+    border: 0;
+    background: rgba(24,14,10,.42);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+  body.menu-open .menu-backdrop { opacity: 1; visibility: visible; pointer-events: auto; }
   .hero { min-height: auto; }
   .hero-grid, .about-grid, .location-grid { grid-template-columns: 1fr; }
   .hero-grid { padding: 65px 0 75px; }
@@ -240,7 +299,8 @@ button { cursor: pointer; }
 
 @media (max-width: 560px) {
   .container { width: min(100% - 28px, 1180px); }
-  .nav-wrap { min-height: 72px; }
+  .nav-wrap { min-height: 72px; gap: 12px; }
+  .nav { width: min(88vw, 340px); padding-left: 28px; padding-right: 28px; }
   .brand-main { font-size: 27px; }
   .hero h1 { font-size: 46px; }
   .hero-copy > p { font-size: 15px; }

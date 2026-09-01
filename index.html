@@ -28,11 +28,11 @@
         <span class="brand-sub">Bolos & Doces</span>
       </a>
 
-      <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuPrincipal">
         <span></span><span></span><span></span>
       </button>
 
-      <nav class="nav" aria-label="Menu principal">
+      <nav class="nav" id="menuPrincipal" aria-label="Menu principal">
         <a href="#destaques">Destaques</a>
         <a href="#cardapio">Cardápio</a>
         <a href="#sobre">Sobre</a>
@@ -40,6 +40,7 @@
         <a class="nav-cta" href="https://www.ifood.com.br/delivery/sumare-sp/the-francis-bolos-e-doces-residencial-bordon/89af2576-4a26-4cfe-950b-0d02d7402735" target="_blank" rel="noopener">Pedir online</a>
       </nav>
     </div>
+    <button class="menu-backdrop" type="button" aria-label="Fechar menu" tabindex="-1"></button>
   </header>
 
   <main>

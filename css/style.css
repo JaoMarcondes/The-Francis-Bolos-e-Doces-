@@ -324,3 +324,66 @@ button { cursor: pointer; }
   .footer-bottom { flex-direction: column; }
   .floating-order { left: 14px; right: 14px; justify-content: center; }
 }
+
+/* ===== Ajustes mobile: evita zoom acidental e estouro horizontal ===== */
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img, iframe {
+  max-width: 100%;
+}
+
+.location-block a,
+.footer-grid a,
+.footer-grid span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 820px) {
+  /* iOS costuma aplicar zoom automático ao focar inputs menores que 16px */
+  .search-box input {
+    font-size: 16px;
+  }
+
+  .nav {
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 560px) {
+  /* O botão flutuante deixa de ocupar praticamente a tela inteira */
+  .floating-order {
+    left: auto;
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    width: auto;
+    max-width: calc(100vw - 28px);
+    min-height: 44px;
+    padding: 10px 15px;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .cta-actions,
+  .hero-actions,
+  .location-actions {
+    width: 100%;
+  }
+
+  .cta-actions .btn,
+  .hero-actions .btn,
+  .location-actions .btn {
+    width: auto;
+    max-width: 100%;
+  }
+}
